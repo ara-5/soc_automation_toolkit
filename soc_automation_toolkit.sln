@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "soc_automation_toolkit", "soc_automation_toolkit\soc_automation_toolkit.pyproj", "{A320476A-0EFF-47D5-910C-D3E8695E14A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A320476A-0EFF-47D5-910C-D3E8695E14A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A320476A-0EFF-47D5-910C-D3E8695E14A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4CB81D4-1DCB-4409-B96D-75F3488B6298}
+	EndGlobalSection
+EndGlobal
