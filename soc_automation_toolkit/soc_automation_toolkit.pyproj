@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="soc_automation_toolkit.py" />
+    <Compile Include="ai_summary.py" />
     <Compile Include="config.py" />
     <Compile Include="enrichment.py" />
     <Compile Include="ioc_lookup.py" />
@@ -30,6 +31,7 @@
     <Compile Include="report.py" />
     <Compile Include="rules.py" />
     <Compile Include="tests\conftest.py" />
+    <Compile Include="tests\test_ai_summary.py" />
     <Compile Include="tests\test_cli.py" />
     <Compile Include="tests\test_enrichment.py" />
     <Compile Include="tests\test_ioc_lookup.py" />

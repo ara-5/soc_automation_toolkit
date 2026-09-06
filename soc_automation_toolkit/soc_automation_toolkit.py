@@ -11,6 +11,7 @@ import sys
 
 import ioc_lookup
 import rules
+from ai_summary import SummaryError, summarize_alerts
 from config import load_config
 from enrichment import enrich_alerts
 from log_parser import parse_log
@@ -59,16 +60,23 @@ def _cmd_scan_logs(args: argparse.Namespace) -> int:
     alerts = rules.run_all_rules(entries, bad_ips=bad_ips)
     print(f"Triggered {len(alerts)} alert(s)")
 
-    config = load_config() if args.enrich else None
+    config = load_config() if (args.enrich or args.summarize) else None
     enriched = enrich_alerts(alerts, config) if args.enrich else [
         {"alert": a, "geoip": None, "threat_intel": None} for a in alerts
     ]
 
+    ai_summary = None
+    if args.summarize and alerts:
+        try:
+            ai_summary = summarize_alerts(enriched, config)
+        except SummaryError as exc:
+            print(f"  note: {exc}")
+
     if args.output:
-        write_report(enriched, args.output)
+        write_report(enriched, args.output, ai_summary=ai_summary)
         print(f"Report written to {args.output}")
     else:
-        print(generate_markdown_report(enriched))
+        print(generate_markdown_report(enriched, ai_summary=ai_summary))
 
     return 0
 
@@ -90,6 +98,11 @@ def build_parser() -> argparse.ArgumentParser:
     scan_parser.add_argument("--blocklist", help="Path to a file of known-bad IPs, one per line")
     scan_parser.add_argument(
         "--enrich", action="store_true", help="Enrich alerts with GeoIP/threat intel"
+    )
+    scan_parser.add_argument(
+        "--summarize",
+        action="store_true",
+        help="Add a Claude-generated executive summary (requires ANTHROPIC_API_KEY)",
     )
     scan_parser.add_argument("--output", help="Write report to this path (.md/.csv/.html)")
     scan_parser.set_defaults(func=_cmd_scan_logs)
