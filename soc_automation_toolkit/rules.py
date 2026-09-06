@@ -1,27 +1,27 @@
 """Rule-based detections that turn normalized log entries into alerts."""
 
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import timedelta
-from typing import Iterable, List, Optional, Set
 
 
 @dataclass
 class Alert:
     rule: str
     severity: str  # "low", "medium", "high"
-    src_ip: Optional[str]
+    src_ip: str | None
     description: str
     evidence: list = field(default_factory=list)
-    first_seen: Optional[object] = None
-    last_seen: Optional[object] = None
+    first_seen: object | None = None
+    last_seen: object | None = None
 
 
 def detect_brute_force(
     entries: Iterable[dict],
     threshold: int = 5,
     window: timedelta = timedelta(minutes=10),
-) -> List[Alert]:
+) -> list[Alert]:
     """Flag src_ips with >= threshold failed logins inside a rolling window."""
     failures = defaultdict(list)
     for entry in entries:
@@ -60,7 +60,7 @@ def detect_port_scan(
     entries: Iterable[dict],
     port_threshold: int = 15,
     window: timedelta = timedelta(minutes=5),
-) -> List[Alert]:
+) -> list[Alert]:
     """Flag src_ips that touch many distinct destination ports quickly."""
     connections = defaultdict(list)
     for entry in entries:
@@ -96,7 +96,7 @@ def detect_port_scan(
     return alerts
 
 
-def detect_known_bad_ip(entries: Iterable[dict], bad_ips: Set[str]) -> List[Alert]:
+def detect_known_bad_ip(entries: Iterable[dict], bad_ips: set[str]) -> list[Alert]:
     """Flag any entry whose src_ip is on a supplied blocklist."""
     if not bad_ips:
         return []
@@ -122,7 +122,7 @@ def detect_known_bad_ip(entries: Iterable[dict], bad_ips: Set[str]) -> List[Aler
     return alerts
 
 
-def run_all_rules(entries: List[dict], bad_ips: Optional[Set[str]] = None) -> List[Alert]:
+def run_all_rules(entries: list[dict], bad_ips: set[str] | None = None) -> list[Alert]:
     alerts = []
     alerts.extend(detect_brute_force(entries))
     alerts.extend(detect_port_scan(entries))

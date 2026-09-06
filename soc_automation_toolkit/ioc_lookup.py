@@ -8,10 +8,8 @@ tests can mock them without touching the network.
 import ipaddress
 import re
 from dataclasses import dataclass, field
-from typing import Optional
 
 import requests
-
 from config import Config
 
 _HASH_RE = re.compile(r"^[a-fA-F0-9]{32}$|^[a-fA-F0-9]{40}$|^[a-fA-F0-9]{64}$")
@@ -132,7 +130,7 @@ def _combine_verdicts(verdicts) -> str:
     return best
 
 
-def lookup(indicator: str, config: Optional[Config] = None) -> LookupResult:
+def lookup(indicator: str, config: Config | None = None) -> LookupResult:
     config = config or Config()
     indicator = indicator.strip()
     indicator_type = detect_indicator_type(indicator)

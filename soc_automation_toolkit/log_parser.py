@@ -16,7 +16,6 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
 
 _FIELD_ALIASES = {
     "timestamp": ["timestamp", "time", "date", "ts", "@timestamp"],
@@ -59,7 +58,7 @@ def _parse_timestamp(value: str) -> datetime:
     raise LogParseError(f"Unrecognized timestamp format: {value!r}")
 
 
-def _lookup_field(row: dict, canonical: str) -> Optional[str]:
+def _lookup_field(row: dict, canonical: str) -> str | None:
     lowered = {k.lower(): v for k, v in row.items()}
     for alias in _FIELD_ALIASES[canonical]:
         if alias in lowered and lowered[alias] not in (None, ""):
@@ -80,12 +79,12 @@ def _normalize_row(row: dict) -> dict:
     }
 
 
-def parse_csv(text: str) -> List[dict]:
+def parse_csv(text: str) -> list[dict]:
     reader = csv.DictReader(text.splitlines())
     return [_normalize_row(row) for row in reader if any(row.values())]
 
 
-def parse_json(text: str) -> List[dict]:
+def parse_json(text: str) -> list[dict]:
     text = text.strip()
     if not text:
         return []
@@ -96,7 +95,7 @@ def parse_json(text: str) -> List[dict]:
     return [_normalize_row(row) for row in rows]
 
 
-def parse_auth_log(text: str) -> List[dict]:
+def parse_auth_log(text: str) -> list[dict]:
     entries = []
     now_year = datetime.now().year
     for line in text.splitlines():
@@ -120,7 +119,7 @@ def parse_auth_log(text: str) -> List[dict]:
     return entries
 
 
-def parse_log(path: str, log_format: str = "auto") -> List[dict]:
+def parse_log(path: str, log_format: str = "auto") -> list[dict]:
     file_path = Path(path)
     text = file_path.read_text(encoding="utf-8", errors="replace")
 

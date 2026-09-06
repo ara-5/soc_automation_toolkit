@@ -88,7 +88,9 @@ def build_parser() -> argparse.ArgumentParser:
         "--format", choices=["auto", "csv", "json", "syslog"], default="auto"
     )
     scan_parser.add_argument("--blocklist", help="Path to a file of known-bad IPs, one per line")
-    scan_parser.add_argument("--enrich", action="store_true", help="Enrich alerts with GeoIP/threat intel")
+    scan_parser.add_argument(
+        "--enrich", action="store_true", help="Enrich alerts with GeoIP/threat intel"
+    )
     scan_parser.add_argument("--output", help="Write report to this path (.md/.csv/.html)")
     scan_parser.set_defaults(func=_cmd_scan_logs)
 

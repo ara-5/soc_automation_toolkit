@@ -9,13 +9,12 @@ ever needs to be committed to the repo:
 
 import os
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
 class Config:
-    vt_api_key: Optional[str] = None
-    abuseipdb_api_key: Optional[str] = None
+    vt_api_key: str | None = None
+    abuseipdb_api_key: str | None = None
 
     def has_virustotal(self) -> bool:
         return bool(self.vt_api_key)

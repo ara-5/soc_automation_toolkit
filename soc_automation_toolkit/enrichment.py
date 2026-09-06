@@ -1,10 +1,8 @@
 """Enrich alerts with GeoIP and threat-intel context before reporting."""
 
-from typing import List, Optional
-
-import requests
 
 import ioc_lookup
+import requests
 from config import Config
 from rules import Alert
 
@@ -35,7 +33,7 @@ def geoip_lookup(ip: str) -> dict:
         return {"available": False, "reason": str(exc)}
 
 
-def enrich_alert(alert: Alert, config: Optional[Config] = None) -> dict:
+def enrich_alert(alert: Alert, config: Config | None = None) -> dict:
     config = config or Config()
     enrichment = {"alert": alert, "geoip": None, "threat_intel": None}
 
@@ -50,5 +48,5 @@ def enrich_alert(alert: Alert, config: Optional[Config] = None) -> dict:
     return enrichment
 
 
-def enrich_alerts(alerts: List[Alert], config: Optional[Config] = None) -> List[dict]:
+def enrich_alerts(alerts: list[Alert], config: Config | None = None) -> list[dict]:
     return [enrich_alert(alert, config) for alert in alerts]

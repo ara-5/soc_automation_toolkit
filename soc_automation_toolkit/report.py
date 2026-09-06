@@ -3,7 +3,6 @@
 import csv
 import io
 from pathlib import Path
-from typing import List
 
 
 def _row(enriched: dict) -> dict:
@@ -23,7 +22,7 @@ def _row(enriched: dict) -> dict:
     }
 
 
-def generate_markdown_report(enriched_alerts: List[dict]) -> str:
+def generate_markdown_report(enriched_alerts: list[dict]) -> str:
     if not enriched_alerts:
         return "# SOC Alert Report\n\nNo alerts triggered.\n"
 
@@ -39,7 +38,7 @@ def generate_markdown_report(enriched_alerts: List[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def generate_csv_report(enriched_alerts: List[dict]) -> str:
+def generate_csv_report(enriched_alerts: list[dict]) -> str:
     buffer = io.StringIO()
     fieldnames = [
         "rule",
@@ -76,7 +75,10 @@ th {{ background: #222; color: #fff; }}
 <h1>SOC Alert Report</h1>
 <p>Total alerts: {count}</p>
 <table>
-<tr><th>Severity</th><th>Rule</th><th>Source IP</th><th>Verdict</th><th>Country</th><th>Description</th></tr>
+<tr>
+  <th>Severity</th><th>Rule</th><th>Source IP</th>
+  <th>Verdict</th><th>Country</th><th>Description</th>
+</tr>
 {rows}
 </table>
 </body>
@@ -84,7 +86,7 @@ th {{ background: #222; color: #fff; }}
 """
 
 
-def generate_html_report(enriched_alerts: List[dict]) -> str:
+def generate_html_report(enriched_alerts: list[dict]) -> str:
     rows_html = []
     for enriched in enriched_alerts:
         row = _row(enriched)
@@ -97,7 +99,7 @@ def generate_html_report(enriched_alerts: List[dict]) -> str:
     return _HTML_TEMPLATE.format(count=len(enriched_alerts), rows="\n".join(rows_html))
 
 
-def write_report(enriched_alerts: List[dict], output_path: str) -> None:
+def write_report(enriched_alerts: list[dict], output_path: str) -> None:
     suffix = Path(output_path).suffix.lower()
     if suffix == ".csv":
         content = generate_csv_report(enriched_alerts)

@@ -1,4 +1,3 @@
-from pathlib import Path
 
 import soc_automation_toolkit as cli
 
