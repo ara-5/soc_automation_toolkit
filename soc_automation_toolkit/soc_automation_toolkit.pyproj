@@ -23,6 +23,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="soc_automation_toolkit.py" />
+    <Compile Include="config.py" />
+    <Compile Include="enrichment.py" />
+    <Compile Include="ioc_lookup.py" />
+    <Compile Include="log_parser.py" />
+    <Compile Include="report.py" />
+    <Compile Include="rules.py" />
+    <Compile Include="tests\conftest.py" />
+    <Compile Include="tests\test_cli.py" />
+    <Compile Include="tests\test_enrichment.py" />
+    <Compile Include="tests\test_ioc_lookup.py" />
+    <Compile Include="tests\test_log_parser.py" />
+    <Compile Include="tests\test_report.py" />
+    <Compile Include="tests\test_rules.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
+    <Content Include="requirements-dev.txt" />
+    <Content Include="samples\sample_auth.csv" />
+    <Content Include="samples\blocklist.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="tests\" />
+    <Folder Include="samples\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
