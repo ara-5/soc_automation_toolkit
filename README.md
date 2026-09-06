@@ -45,13 +45,13 @@ than a notebook.
 
 ```mermaid
 flowchart LR
-    A[Log file<br/>csv / json / syslog] --> B[log_parser.py<br/>normalize to common event shape]
-    B --> C[rules.py<br/>brute force / port scan / blocklist]
-    C --> D[enrichment.py<br/>GeoIP + threat intel]
-    D --> E[report.py<br/>Markdown / CSV / HTML]
+    A["Log file (csv / json / syslog)"] --> B["log_parser.py<br/>normalize to common event shape"]
+    B --> C["rules.py<br/>brute force / port scan / blocklist"]
+    C --> D["enrichment.py<br/>GeoIP + threat intel"]
+    D --> E["report.py<br/>Markdown / CSV / HTML"]
 
-    F[Indicator: ip / domain / hash] --> G[ioc_lookup.py<br/>VirusTotal + AbuseIPDB]
-    G --> H[combined verdict]
+    F["Indicator (ip / domain / hash)"] --> G["ioc_lookup.py<br/>VirusTotal + AbuseIPDB"]
+    G --> H["combined verdict"]
 ```
 
 Everything that talks to the network (`ioc_lookup.py`, the GeoIP call
